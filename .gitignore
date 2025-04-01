@@ -10,7 +10,7 @@ obj/
 *.userprefs
 
 # Visual Studio Code files
-.vscode/
+.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -40,7 +40,7 @@ artifacts/
 *.pgc
 *.pgd
 *.rsp
-*.sbrk
+*.sbr
 *.tlb
 *.tli
 *.tlh
@@ -92,24 +92,17 @@ project.lock.json
 *.pyc
 nupkg/
 
-# IDE - JetBrains Rider
+# IDE
 .idea/
-*.sln.iml
-
-# User-specific files
-*.rsuser
+.vscode/
 *.suo
-*.user
-*.userosscache
-*.sln.docstates
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# SQLite database files
-*.db
-*.db-shm
-*.db-wal
-
-# Environment files
-*.env
+# Environment Files
+.env
 .env.local
 .env.development.local
 .env.test.local
