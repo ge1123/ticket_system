@@ -66,7 +66,10 @@ namespace TicketSystem.Application.Services
                 EndDate = createTicketDto.EndDate,
                 Status = TicketStatus.Active,
                 TicketNumber = GenerateTicketNumber(),
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = createTicketDto.CreatedBy,
+                UpdatedBy = createTicketDto.UpdatedBy,
+                Venue = createTicketDto.Venue,
             };
 
             // 新增票券
