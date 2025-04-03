@@ -95,7 +95,8 @@ dotnet run --project TicketSystem.Api
 ### 資料庫遷移
 ```
 dotnet ef migrations add InitialCreate --project TicketSystem.Infrastructure --startup-project TicketSystem.Api
-dotnet ef migrations remove --project TicketSystem.Infrastructure --startup-project TicketSystem.Apidotnet ef migrations dotnet ef migrations list --project TicketSystem.Infrastructure --startup-project TicketSystem.Api
+dotnet ef migrations remove --project TicketSystem.Infrastructure --startup-project TicketSystem.Api
+dotnet ef migrations list --project TicketSystem.Infrastructure --startup-project TicketSystem.Api
 dotnet ef database update --project TicketSystem.Infrastructure --startup-project TicketSystem.Api
 ```
 
