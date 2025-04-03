@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TicketSystem.Domain.Entities;
 using TicketSystem.Domain.Interfaces;
+using TicketSystem.Domain.Enums;
 
 namespace TicketSystem.Infrastructure.Persistence
 {
@@ -30,7 +31,7 @@ namespace TicketSystem.Infrastructure.Persistence
         public async Task<IEnumerable<Ticket>> GetAvailableTicketsAsync()
         {
             return await _dbSet
-                .Where(t => t.Status == Domain.Enums.TicketStatus.Available && t.Quantity > 0)
+                .Where(t => t.Status == TicketStatus.Active && t.Quantity > 0)
                 .ToListAsync();
         }
 
