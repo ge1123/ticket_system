@@ -3,6 +3,7 @@ using TicketSystem.Application.Interfaces;
 using TicketSystem.Application.Services;
 using TicketSystem.Domain.Interfaces;
 using TicketSystem.Infrastructure.Persistence;
+using TicketSystem.Infrastructure.Persistence.Repostories;
 
 var builder = WebApplication.CreateBuilder(args);
 
