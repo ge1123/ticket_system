@@ -25,25 +25,7 @@ namespace TicketSystem.Application.Services
 
         public async Task<Ticket> CreateTicketAsync(CreateTicketDto createTicketDto)
         {
-            // 驗證日期
-            if (createTicketDto.StartDate >= createTicketDto.EndDate)
-            {
-                throw new ArgumentException("開始日期必須早於結束日期");
-            }
-
-            // 驗證數量
-            if (createTicketDto.Quantity <= 0)
-            {
-                throw new ArgumentException("數量必須大於 0");
-            }
-
-            // 驗證價格
-            if (createTicketDto.Price <= 0)
-            {
-                throw new ArgumentException("價格必須大於 0");
-            }
-
-            // 驗證分類
+            // 驗證分類是否存在
             if (createTicketDto.CategoryIds != null && createTicketDto.CategoryIds.Any())
             {
                 foreach (var categoryId in createTicketDto.CategoryIds)
@@ -56,27 +38,22 @@ namespace TicketSystem.Application.Services
                 }
             }
 
-            // 建立票券
-            var ticket = new Ticket
-            {
-                Title = createTicketDto.Title,
-                Description = createTicketDto.Description,
-                Price = createTicketDto.Price,
-                Quantity = createTicketDto.Quantity,
-                StartDate = createTicketDto.StartDate,
-                EndDate = createTicketDto.EndDate,
-                Status = TicketStatus.Active,
-                TicketNumber = GenerateTicketNumber(),
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = createTicketDto.CreatedBy,
-                UpdatedBy = createTicketDto.UpdatedBy,
-                Venue = createTicketDto.Venue,
-            };
+            // 使用 Entity 內部的 Create 方法
+            var ticket = Ticket.Create(
+                createTicketDto.Title,
+                createTicketDto.Description,
+                createTicketDto.Price,
+                createTicketDto.Quantity,
+                createTicketDto.StartDate,
+                createTicketDto.EndDate,
+                createTicketDto.Venue,
+                createTicketDto.CreatedBy
+            );
 
             // 新增票券
             await _ticketRepository.AddAsync(ticket);
 
-            // 新增票券分類關聯
+            // 設定分類
             if (createTicketDto.CategoryIds != null && createTicketDto.CategoryIds.Any())
             {
                 var ticketCategories = createTicketDto.CategoryIds.Select(categoryId =>
@@ -130,25 +107,7 @@ namespace TicketSystem.Application.Services
                 throw new ArgumentException($"找不到 ID 為 {id} 的票券");
             }
 
-            // 驗證日期
-            if (updateTicketDto.StartDate >= updateTicketDto.EndDate)
-            {
-                throw new ArgumentException("開始日期必須早於結束日期");
-            }
-
-            // 驗證數量
-            if (updateTicketDto.Quantity <= 0)
-            {
-                throw new ArgumentException("數量必須大於 0");
-            }
-
-            // 驗證價格
-            if (updateTicketDto.Price <= 0)
-            {
-                throw new ArgumentException("價格必須大於 0");
-            }
-
-            // 驗證分類
+            // 驗證分類是否存在
             if (updateTicketDto.CategoryIds != null && updateTicketDto.CategoryIds.Any())
             {
                 foreach (var categoryId in updateTicketDto.CategoryIds)
@@ -161,16 +120,18 @@ namespace TicketSystem.Application.Services
                 }
             }
 
-            // 更新票券
-            ticket.Title = updateTicketDto.Title;
-            ticket.Description = updateTicketDto.Description;
-            ticket.Price = updateTicketDto.Price;
-            ticket.Quantity = updateTicketDto.Quantity;
-            ticket.StartDate = updateTicketDto.StartDate;
-            ticket.EndDate = updateTicketDto.EndDate;
-            ticket.UpdatedAt = DateTime.UtcNow;
+            // 使用 Entity 內部的 Update 方法
+            ticket.Update(
+                updateTicketDto.Title,
+                updateTicketDto.Description,
+                updateTicketDto.Price,
+                updateTicketDto.Quantity,
+                updateTicketDto.StartDate,
+                updateTicketDto.EndDate,
+                updateTicketDto.UpdatedBy
+            );
 
-            // 更新票券分類關聯
+            // 更新票券分類
             if (updateTicketDto.CategoryIds != null && updateTicketDto.CategoryIds.Any())
             {
                 var ticketCategories = updateTicketDto.CategoryIds.Select(categoryId =>
@@ -196,10 +157,5 @@ namespace TicketSystem.Application.Services
 
             _ticketRepository.Remove(ticket);
         }
-
-        private string GenerateTicketNumber()
-        {
-            return $"TKT-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}";
-        }
     }
-} 
+}
