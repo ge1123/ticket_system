@@ -35,15 +35,8 @@ namespace TicketSystem.Api.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<Ticket>> CreateTicket([FromBody] CreateTicketDto createTicketDto)
         {
-            try
-            {
-                var ticket = await _ticketService.CreateTicketAsync(createTicketDto);
-                return CreatedAtAction(nameof(GetTicketById), new { id = ticket.Id }, ticket);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var ticket = await _ticketService.CreateTicketAsync(createTicketDto);
+            return CreatedAtAction(nameof(GetTicketById), new { id = ticket.Id }, ticket);
         }
 
         /// <summary>
@@ -160,15 +153,8 @@ namespace TicketSystem.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateTicket(Guid id, [FromBody] CreateTicketDto updateTicketDto)
         {
-            try
-            {
-                await _ticketService.UpdateTicketAsync(id, updateTicketDto);
-                return NoContent();
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _ticketService.UpdateTicketAsync(id, updateTicketDto);
+            return NoContent();
         }
 
         /// <summary>
@@ -183,15 +169,8 @@ namespace TicketSystem.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteTicket(Guid id)
         {
-            try
-            {
-                await _ticketService.DeleteTicketAsync(id);
-                return NoContent();
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _ticketService.DeleteTicketAsync(id);
+            return NoContent();
         }
     }
-} 
+}
