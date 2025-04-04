@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TicketSystem.Domain.Entities;
 using TicketSystem.Domain.Interfaces;
 
-namespace TicketSystem.Infrastructure.Persistence
+namespace TicketSystem.Infrastructure.Persistence.Repostories
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {

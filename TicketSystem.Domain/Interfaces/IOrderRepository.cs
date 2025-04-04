@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TicketSystem.Domain.Aggregates.Order;
 using TicketSystem.Domain.Entities;
 using TicketSystem.Domain.Enums;
 

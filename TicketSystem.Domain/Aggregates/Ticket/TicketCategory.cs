@@ -1,8 +1,9 @@
-using System;
+using TicketSystem.Domain.Common;
+using TicketSystem.Domain.Entities;
 
-namespace TicketSystem.Domain.Entities
+namespace TicketSystem.Domain.Aggregates.Ticket
 {
-    public class TicketCategory
+    public class TicketCategory : Entity
     {
         public Guid TicketId { get; set; }
         public Guid CategoryId { get; set; }

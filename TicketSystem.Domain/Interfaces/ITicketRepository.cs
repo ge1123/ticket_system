@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TicketSystem.Domain.Aggregates.Ticket;
 using TicketSystem.Domain.Entities;
 
 namespace TicketSystem.Domain.Interfaces

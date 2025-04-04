@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TicketSystem.Application.DTOs.Ticket;
 using TicketSystem.Application.Interfaces;
+using TicketSystem.Domain.Aggregates.Ticket;
 using TicketSystem.Domain.Entities;
 
 namespace TicketSystem.Api.Controllers

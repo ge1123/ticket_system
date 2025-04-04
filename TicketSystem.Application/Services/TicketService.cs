@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TicketSystem.Application.DTOs.Ticket;
 using TicketSystem.Application.Interfaces;
+using TicketSystem.Domain.Aggregates.Ticket;
 using TicketSystem.Domain.Entities;
 using TicketSystem.Domain.Interfaces;
 using TicketSystem.Domain.Enums;

@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TicketSystem.Domain.Aggregates.Ticket;
 using TicketSystem.Domain.Entities;
-using TicketSystem.Domain.Interfaces;
 using TicketSystem.Domain.Enums;
+using TicketSystem.Domain.Interfaces;
 
-namespace TicketSystem.Infrastructure.Persistence
+namespace TicketSystem.Infrastructure.Persistence.Repostories
 {
     public class TicketRepository : Repository<Ticket>, ITicketRepository
     {

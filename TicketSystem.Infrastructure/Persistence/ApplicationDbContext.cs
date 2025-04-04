@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using TicketSystem.Domain.Aggregates.Order;
+using TicketSystem.Domain.Aggregates.Ticket;
 using TicketSystem.Domain.Entities;
 
 namespace TicketSystem.Infrastructure.Persistence
@@ -22,7 +24,11 @@ namespace TicketSystem.Infrastructure.Persistence
 
             // 設定複合主鍵
             modelBuilder.Entity<TicketCategory>()
-                .HasKey(tc => new { tc.TicketId, tc.CategoryId });
+                .HasKey(tc => tc.Id); 
+            
+            modelBuilder.Entity<TicketCategory>()
+                .HasIndex(tc => new { tc.TicketId, tc.CategoryId })
+                .IsUnique(); 
 
             // 設定關聯關係
             modelBuilder.Entity<TicketCategory>()

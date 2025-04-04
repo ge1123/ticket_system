@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
+using TicketSystem.Domain.Entities;
 using TicketSystem.Domain.Enums;
 
-namespace TicketSystem.Domain.Entities
+namespace TicketSystem.Domain.Aggregates.Order
 {
     public class Order
     {

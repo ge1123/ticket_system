@@ -1,6 +1,4 @@
-using System;
-
-namespace TicketSystem.Domain.Entities
+namespace TicketSystem.Domain.Aggregates.Order
 {
     public class OrderItem
     {
@@ -15,6 +13,6 @@ namespace TicketSystem.Domain.Entities
 
         // 導航屬性
         public virtual Order Order { get; set; }
-        public virtual Ticket Ticket { get; set; }
+        public virtual Ticket.Ticket Ticket { get; set; }
     }
 } 
