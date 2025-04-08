@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TicketSystem.Application.Commands.Tickets.CreateTicket;
 using TicketSystem.Application.DTOs.Ticket;
 using TicketSystem.Application.Interfaces;
 using TicketSystem.Application.Queries.Tickets.GetTicketById;
+using TicketSystem.Application.Queries.Tickets.GetTicketByNumber;
 using TicketSystem.Domain.Aggregates.Ticket;
-using TicketSystem.Domain.Entities;
 
 namespace TicketSystem.Api.Controllers
 {
@@ -39,7 +36,7 @@ namespace TicketSystem.Api.Controllers
         [ProducesResponseType(typeof(Ticket), 201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult> CreateTicket([FromBody] CreateTicketCommand command)
-        {
+            {
             return Ok(await _mediator.Send(command));
         }
 
@@ -79,13 +76,16 @@ namespace TicketSystem.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<Ticket>> GetTicketByNumber(string ticketNumber)
         {
-            var ticket = await _ticketService.GetTicketByNumberAsync(ticketNumber);
-            if (ticket == null)
+            try
+            {
+                var query = new GetTicketByNumberQuery { TicketNumber = ticketNumber };
+                var ticket = await _mediator.Send(query);
+                return Ok(ticket);
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-
-            return Ok(ticket);
         }
 
         /// <summary>
@@ -159,9 +159,9 @@ namespace TicketSystem.Api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateTicket(Guid id, [FromBody] CreateTicketDto updateTicketDto)
-        {
-            await _ticketService.UpdateTicketAsync(id, updateTicketDto);
-            return NoContent();
+            {
+                await _ticketService.UpdateTicketAsync(id, updateTicketDto);
+                return NoContent();
         }
 
         /// <summary>
@@ -175,9 +175,9 @@ namespace TicketSystem.Api.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteTicket(Guid id)
-        {
-            await _ticketService.DeleteTicketAsync(id);
-            return NoContent();
+            {
+                await _ticketService.DeleteTicketAsync(id);
+                return NoContent();
         }
     }
 }
