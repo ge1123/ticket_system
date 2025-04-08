@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TicketSystem.Application.Commands.Tickets.CreateTicket;
 using TicketSystem.Application.DTOs.Ticket;
 using TicketSystem.Application.Interfaces;
 using TicketSystem.Domain.Aggregates.Ticket;
-using TicketSystem.Domain.Entities;
 
 namespace TicketSystem.Api.Controllers
 {
@@ -17,26 +15,27 @@ namespace TicketSystem.Api.Controllers
     public class TicketController : ControllerBase
     {
         private readonly ITicketService _ticketService;
+        private readonly IMediator _mediator;
 
-        public TicketController(ITicketService ticketService)
+        public TicketController(ITicketService ticketService, IMediator mediator)
         {
             _ticketService = ticketService;
+            _mediator = mediator;
         }
 
         /// <summary>
         /// 建立新票券
         /// </summary>
-        /// <param name="createTicketDto">票券建立資料</param>
+        /// <param name="command">票券建立資料</param>
         /// <returns>新建立的票券資訊</returns>
         /// <response code="201">成功建立票券</response>
         /// <response code="400">請求資料驗證失敗</response>
         [HttpPost]
         [ProducesResponseType(typeof(Ticket), 201)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Ticket>> CreateTicket([FromBody] CreateTicketDto createTicketDto)
+        public async Task<ActionResult> CreateTicket([FromBody] CreateTicketCommand command)
         {
-            var ticket = await _ticketService.CreateTicketAsync(createTicketDto);
-            return CreatedAtAction(nameof(GetTicketById), new { id = ticket.Id }, ticket);
+            return Ok(await _mediator.Send(command));
         }
 
         /// <summary>

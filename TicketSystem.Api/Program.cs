@@ -6,6 +6,7 @@ using TicketSystem.Infrastructure.Persistence;
 using TicketSystem.Infrastructure.Persistence.Repostories;
 using Microsoft.OpenApi.Models;
 using TicketSystem.Api.Extensions;
+using TicketSystem.Application.StartUp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,8 @@ builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 // 註冊 Application 服務
 builder.Services.AddScoped<ITicketService, TicketService>();
 
+// 註冊 MediatR
+builder.Services.AddApplication();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
