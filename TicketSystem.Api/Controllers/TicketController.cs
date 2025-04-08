@@ -1,9 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TicketSystem.Application.Commands.Tickets.CreateTicket;
 using TicketSystem.Application.DTOs.Ticket;
 using TicketSystem.Application.Interfaces;
+using TicketSystem.Application.Queries.Tickets.GetTicketById;
 using TicketSystem.Domain.Aggregates.Ticket;
+using TicketSystem.Domain.Entities;
 
 namespace TicketSystem.Api.Controllers
 {
@@ -50,13 +55,16 @@ namespace TicketSystem.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<Ticket>> GetTicketById(Guid id)
         {
-            var ticket = await _ticketService.GetTicketByIdAsync(id);
-            if (ticket == null)
+            try
+            {
+                var query = new GetTicketByIdQuery { Id = id };
+                var ticket = await _mediator.Send(query);
+                return Ok(ticket);
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
-
-            return Ok(ticket);
         }
 
         /// <summary>
