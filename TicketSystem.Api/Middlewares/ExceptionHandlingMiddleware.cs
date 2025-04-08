@@ -1,5 +1,7 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
 using TicketSystem.Domain.Exceptions;
 
 namespace TicketSystem.Api.Middlewares
@@ -88,6 +90,16 @@ namespace TicketSystem.Api.Middlewares
                     response.Message = "未授權的訪問";
                     break;
                     
+                case FluentValidation.ValidationException validationEx: // 處理 FluentValidation 的異常
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Message = "驗證失敗";
+                    response.Data = validationEx.Errors.Select(e => new
+                    {
+                        Property = e.PropertyName,
+                        Error = e.ErrorMessage
+                    });
+                    break;
+                
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     response.Message = "發生內部服務器錯誤";
